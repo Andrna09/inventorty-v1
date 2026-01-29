@@ -56,7 +56,6 @@
     <h5 class="mb-0">Riwayat Keluar</h5>
     <input type="text" id="bk_search" class="form-control form-control-sm w-auto" placeholder="Cari..." onkeyup="bk_loadData()">
   </div>
-  
   <div class="table-responsive">
     <table class="table table-hover align-middle">
       <thead class="table-light">
@@ -65,7 +64,6 @@
       <tbody id="bk_table"></tbody>
     </table>
   </div>
-  
   <div class="d-flex justify-content-end gap-2 mt-3">
     <button class="btn btn-sm btn-outline-secondary" onclick="bk_nav(-1)">Prev</button>
     <span id="bk_page_info" class="align-self-center text-muted small">Page 1</span>
@@ -77,8 +75,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title">Scanner Keluar</h5>
-        <button type="button" class="btn-close btn-close-white" onclick="bk_stopScan()"></button>
+        <h5 class="modal-title">Scanner Keluar</h5><button type="button" class="btn-close btn-close-white" onclick="bk_stopScan()"></button>
       </div>
       <div class="modal-body p-0 bg-dark"><div id="bk_reader" style="width:100%"></div></div>
     </div>
@@ -97,7 +94,6 @@
   function bk_cekBarang() {
     var kode = document.getElementById('bk_kode').value;
     if(!kode) return Swal.fire('Info', 'Isi kode barang', 'info');
-    
     google.script.run.withSuccessHandler(function(p) {
       if(p) {
         document.getElementById('bk_nama').innerText = p.nama;
@@ -119,9 +115,7 @@
       gudang: document.getElementById('bk_gudang').value,
       pj: document.getElementById('bk_pj').value
     };
-
     if(!d.kode || !d.jml || !d.pj) return Swal.fire('Warning', 'Lengkapi data!', 'warning');
-
     Swal.showLoading();
     google.script.run.withSuccessHandler(function(res) {
       Swal.close();
@@ -131,9 +125,7 @@
         document.getElementById('bk_jml').value = '';
         document.getElementById('bk_info').style.display = 'none';
         bk_loadData();
-      } else {
-        Swal.fire('Gagal', res.message, 'error');
-      }
+      } else Swal.fire('Gagal', res.message, 'error');
     }).addBarangKeluar(d.tgl, d.kode, d.jml, d.gudang, d.pj);
   }
 
@@ -142,12 +134,7 @@
     google.script.run.withSuccessHandler(function(res) {
       var html = '';
       res.data.forEach(function(r) {
-        html += `<tr>
-          <td>${r[0]}</td><td><span class="badge bg-light text-dark border">${r[1]}</span></td>
-          <td>${r[2]}</td><td class="text-danger fw-bold">-${r[7]}</td>
-          <td>${r[5]}</td><td>${r[6]}</td>
-          <td><button class="btn btn-sm btn-outline-danger" onclick="bk_hapus(${r[8]})"><i class="material-icons" style="font-size:16px">delete</i></button></td>
-        </tr>`;
+        html += `<tr><td>${r[0]}</td><td><span class="badge bg-light text-dark border">${r[1]}</span></td><td>${r[2]}</td><td class="text-danger fw-bold">-${r[7]}</td><td>${r[5]}</td><td>${r[6]}</td><td><button class="btn btn-sm btn-outline-danger" onclick="bk_hapus(${r[8]})"><i class="material-icons" style="font-size:16px">delete</i></button></td></tr>`;
       });
       document.getElementById('bk_table').innerHTML = html || '<tr><td colspan="7" class="text-center">Kosong</td></tr>';
       document.getElementById('bk_page_info').innerText = 'Page ' + res.currentPage;
@@ -156,9 +143,7 @@
 
   function bk_hapus(idx) {
     Swal.fire({title:'Batalkan?', text:'Stok akan dikembalikan', icon:'warning', showCancelButton:true}).then((r) => {
-      if(r.isConfirmed) {
-        google.script.run.withSuccessHandler(res => { Swal.fire('Info', res, 'info'); bk_loadData(); }).hapusBarangKeluar(idx);
-      }
+      if(r.isConfirmed) google.script.run.withSuccessHandler(res => { Swal.fire('Info', res, 'info'); bk_loadData(); }).hapusBarangKeluar(idx);
     });
   }
 
@@ -170,16 +155,13 @@
   function bk_startScan() {
     new bootstrap.Modal(document.getElementById('bk_scanModal')).show();
     if(!bk_scanner) bk_scanner = new Html5Qrcode("bk_reader");
-    bk_scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, 
-      function(decoded) {
-        document.getElementById('bk_kode').value = decoded;
-        bk_stopScan();
-        bk_cekBarang();
-        var ctx = new (window.AudioContext || window.webkitAudioContext)();
-        var osc = ctx.createOscillator(); osc.connect(ctx.destination);
-        osc.start(); osc.stop(ctx.currentTime + 0.1);
-      }
-    );
+    bk_scanner.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, function(decoded) {
+      document.getElementById('bk_kode').value = decoded;
+      bk_stopScan(); bk_cekBarang();
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var osc = ctx.createOscillator(); osc.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + 0.1);
+    });
   }
   
   function bk_stopScan() {
