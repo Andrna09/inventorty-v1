@@ -6,184 +6,190 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<style>
-  /* Base Styles */
-  body {
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #f8f9fa;
-  }
-
-  /* Tombol untuk membuka sidebar di HP */
-  .sidebar-toggler {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1031;
-    display: none;
-    padding: 8px 12px;
-  }
-
-  /* Mengubah .nav-sidebar menjadi komponen Off-canvas Bootstrap */
-  .nav-sidebar.offcanvas {
-    background-color: #444BA0;
-    padding: 0;
-    border: none;
-    border-radius: 0 10px 10px 0;
-  }
   
-  .nav-sidebar .offcanvas-header {
-    background-color: #3a3f87;
-    color: white;
-  }
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
-  /* Tampilan di layar besar (Desktop) */
-  @media (min-width: 992px) {
-    .main-content {
-      margin-left: 260px;
-      padding: 20px;
+  <style>
+    /* Base Styles */
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background-color: #f8f9fa;
     }
-    .nav-sidebar {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      width: 220px;
-      height: calc(100vh - 40px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      border-radius: 10px;
-      transform: none !important;
-      visibility: visible !important;
-    }
-    .offcanvas-backdrop {
-      display: none !important;
-    }
-  }
 
-  /* Tampilan di layar kecil (Mobile) */
-  @media (max-width: 991.98px) {
-    body { 
-      padding: 0; 
-    }
-    .main-content {
-      margin-left: 0;
-      padding: 15px;
-      padding-top: 75px; /* Jarak dari atas untuk header dan tombol */
-    }
+    /* Sidebar Toggle Button */
     .sidebar-toggler {
-      display: block;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 1031;
+      display: none;
+      padding: 8px 12px;
     }
-  }
 
-  /* Gaya lainnya */
-  .header { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    margin-bottom: 20px; 
-  }
-  
-  .search-filter { 
-    display: flex; 
-    gap: 10px; 
-    margin-bottom: 20px; 
-    flex-wrap: wrap; 
-    align-items: center; 
-  }
-  
-  .form-container { 
-    background-color: white; 
-    padding: 20px; 
-    border-radius: 8px; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-    margin-bottom: 20px; 
-  }
-  
-  #barangKeluarTable thead th { 
-    background-color: #444BA0; 
-    color: white; 
-    vertical-align: middle; 
-  }
-  
-  .sidebar-header { 
-    padding: 20px; 
-    text-align: center; 
-    border-bottom: 1px solid rgba(255,255,255,0.1); 
-  }
-  
-  .sidebar-logo { 
-    width: 80px; 
-    height: 80px; 
-    margin-bottom: 15px; 
-    background-color: white; 
-    border-radius: 50%; 
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    color: #444BA0; 
-    font-size: 2rem; 
-  }
-  
-  .sidebar-logo img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    border-radius: 50%; 
-  }
-  
-  .nav-link { 
-    padding: 10px 20px; 
-    color: white; 
-    border-left: 4px solid transparent; 
-    text-decoration: none; 
-    display: flex; 
-    align-items: center; 
-    transition: all 0.3s ease; 
-  }
-  
-  .nav-link:hover, 
-  .nav-link.active { 
-    background-color: rgba(255,255,255,0.1); 
-    border-left: 4px solid white; 
-    color: white; 
-  }
-  
-  .nav-link i { 
-    margin-right: 10px; 
-  }
-  
-  .nav-container { 
-    flex-grow: 1; 
-    overflow-y: auto; 
-    padding-top: 10px; 
-  }
-  
-  .warning-text { 
-    color: #d32f2f; 
-    font-weight: 500; 
-  }
-  
-  .scan-btn { 
-    position: relative; 
-    overflow: hidden; 
-  }
-  
-  .scan-input { 
-    position: absolute; 
-    font-size: 100px; 
-    opacity: 0; 
-    right: 0; 
-    top: 0; 
-    cursor: pointer; 
-  }
-  
-  @keyframes spin { 
-    0% { transform: rotate(0deg); } 
-    100% { transform: rotate(360deg); } 
-  }
-  
-  .spin { 
-    animation: spin 1s linear infinite; 
-  }
-</style>
+    /* Off-canvas Sidebar Component */
+    .nav-sidebar.offcanvas {
+      background-color: #444BA0;
+      padding: 0;
+      border: none;
+      border-radius: 0 10px 10px 0;
+    }
+    
+    .nav-sidebar .offcanvas-header {
+      background-color: #3a3f87;
+      color: white;
+    }
+
+    /* Desktop View */
+    @media (min-width: 992px) {
+      .main-content {
+        margin-left: 260px;
+        padding: 20px;
+      }
+      .nav-sidebar {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        width: 220px;
+        height: calc(100vh - 40px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        transform: none !important;
+        visibility: visible !important;
+      }
+      .offcanvas-backdrop {
+        display: none !important;
+      }
+    }
+
+    /* Mobile View */
+    @media (max-width: 991.98px) {
+      body { 
+        padding: 0; 
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+        padding-top: 75px;
+      }
+      .sidebar-toggler {
+        display: block;
+      }
+    }
+
+    /* Styles Lainnya */
+    .header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 20px; 
+    }
+    
+    .search-filter { 
+      display: flex; 
+      gap: 10px; 
+      margin-bottom: 20px; 
+      flex-wrap: wrap; 
+      align-items: center; 
+    }
+    
+    .form-container { 
+      background-color: white; 
+      padding: 20px; 
+      border-radius: 8px; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+      margin-bottom: 20px; 
+    }
+    
+    #barangKeluarTable thead th { 
+      background-color: #444BA0; 
+      color: white; 
+      vertical-align: middle; 
+    }
+    
+    .sidebar-header { 
+      padding: 20px; 
+      text-align: center; 
+      border-bottom: 1px solid rgba(255,255,255,0.1); 
+    }
+    
+    .sidebar-logo { 
+      width: 80px; 
+      height: 80px; 
+      margin-bottom: 15px; 
+      background-color: white; 
+      border-radius: 50%; 
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center; 
+      color: #444BA0; 
+      font-size: 2rem; 
+    }
+    
+    .sidebar-logo img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      border-radius: 50%; 
+    }
+    
+    .nav-link { 
+      padding: 10px 20px; 
+      color: white; 
+      border-left: 4px solid transparent; 
+      text-decoration: none; 
+      display: flex; 
+      align-items: center; 
+      transition: all 0.3s ease; 
+    }
+    
+    .nav-link:hover, 
+    .nav-link.active { 
+      background-color: rgba(255,255,255,0.1); 
+      border-left: 4px solid white; 
+      color: white; 
+    }
+    
+    .nav-link i { 
+      margin-right: 10px; 
+    }
+    
+    .nav-container { 
+      flex-grow: 1; 
+      overflow-y: auto; 
+      padding-top: 10px; 
+    }
+    
+    .warning-text { 
+      color: #d32f2f; 
+      font-weight: 500; 
+    }
+    
+    @keyframes spin { 
+      0% { transform: rotate(0deg); } 
+      100% { transform: rotate(360deg); } 
+    }
+    
+    .spin { 
+      animation: spin 1s linear infinite; 
+    }
+
+    /* CSS KHUSUS SCANNER */
+    #scanner-container {
+      position: relative;
+      background: #000;
+      width: 100%;
+      min-height: 300px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    #reader {
+      width: 100%;
+    }
+    #reader__scan_region {
+      background: white; 
+    }
+  </style>
+</head>
 
 <body>
   <button class="btn btn-primary sidebar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
@@ -247,16 +253,17 @@
           <label for="tglKeluar" class="form-label">Tanggal Keluar</label>
           <input type="date" class="form-control" id="tglKeluar" required>
         </div>
+        
         <div class="col-12 col-md-8 col-lg-5">
           <label for="kodeBarang" class="form-label">Kode Barang</label>
           <div class="input-group">
-            <input type="text" class="form-control" id="kodeBarang" placeholder="Input barcode" required>
-            <button class="btn btn-outline-secondary scan-btn" type="button" title="Scan Barcode">
-              <i class="material-icons">qr_code_scanner</i>
-              <input type="file" accept="image/*" capture="environment" class="scan-input" id="barcodeInput">
+            <input type="text" class="form-control" id="kodeBarang" placeholder="Scan atau ketik kode" required>
+            <button class="btn btn-outline-secondary" type="button" onclick="startScan()" title="Scan Barcode/QR">
+              <i class="material-icons">qr_code_scanner</i> Scan
             </button>
           </div>
         </div>
+        
         <div class="col-12 col-lg-4 d-grid">
           <button class="btn btn-info mt-auto" onclick="getProdukInfo()">
             <i class="material-icons">search</i> Cek Barang
@@ -282,7 +289,7 @@
           <input type="text" class="form-control" id="stokSaatIni" readonly>
         </div>
         <small class="warning-text" id="stokWarning" style="display: none;">
-          Stok tidak mencukupi!
+          <i class="material-icons" style="font-size:14px; vertical-align:middle">warning</i> Stok tidak mencukupi!
         </small>
       </div>
       
@@ -362,16 +369,38 @@
         <i class="material-icons">chevron_right</i>
       </button>
     </div>
+    
+    <div class="modal fade" id="scanModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title"><i class="material-icons" style="vertical-align:middle">qr_code_scanner</i> Scanner Keluar</h5>
+            <button type="button" class="btn-close btn-close-white" onclick="stopScan()"></button>
+          </div>
+          <div class="modal-body p-0">
+            <div id="scanner-container">
+              <div id="reader"></div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <small class="text-muted">Arahkan kamera ke Barcode / QR Code</small>
+            <button type="button" class="btn btn-secondary" onclick="stopScan()">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
+  
+  <script>
     let currentPage = 1;
     let currentFilter = '';
     let currentSearch = '';
     let barisDiedit = null;
+    let html5QrcodeScanner = null;
 
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('tglKeluar').value = new Date().toISOString().split('T')[0];
@@ -384,6 +413,63 @@
         }
       });
     });
+
+    /* --- LOGIC SCANNER BARU --- */
+    function startScan() {
+        const scanModal = new bootstrap.Modal(document.getElementById('scanModal'));
+        scanModal.show();
+
+        if (html5QrcodeScanner === null) {
+            html5QrcodeScanner = new Html5Qrcode("reader");
+        }
+
+        const config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1.0 };
+        
+        html5QrcodeScanner.start({ facingMode: "environment" }, config, onScanSuccess)
+        .catch(err => {
+            console.error("Error starting scanner", err);
+            Swal.fire("Error", "Gagal mengakses kamera: " + err, "error");
+            stopScan();
+        });
+    }
+
+    function onScanSuccess(decodedText) {
+        playBeep();
+        stopScan();
+        document.getElementById('kodeBarang').value = decodedText;
+        
+        // Visual feedback
+        Swal.fire({
+            icon: 'success', title: 'Terbaca!', text: decodedText, 
+            timer: 1000, showConfirmButton: false
+        });
+        
+        // Cek produk & stok otomatis
+        getProdukInfo();
+    }
+
+    function stopScan() {
+        if (html5QrcodeScanner) {
+            html5QrcodeScanner.stop().then(() => html5QrcodeScanner.clear()).catch(console.error);
+        }
+        const modalEl = document.getElementById('scanModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+    }
+
+    function playBeep() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.1);
+    }
+    /* --- END LOGIC SCANNER --- */
 
     function loadBarangKeluarData(filter = '', page = 1, searchTerm = '') {
       document.getElementById('barangKeluarTableBody').innerHTML = `<tr><td colspan="9" class="text-center py-4"><div class="spinner-border text-primary"></div></td></tr>`;
@@ -542,10 +628,10 @@
 
     function formatDate(d) { return d ? new Date(d).toLocaleDateString('id-ID', {day:'2-digit',month:'2-digit',year:'numeric'}) : ''; }
     
-  function loadGudangOptions() {
+    function loadGudangOptions() {
       google.script.run.withSuccessHandler(function(gudangList) {
         const filterGudang = document.getElementById('filterGudang');
-        filterGudang.innerHTML = '<option value="">Semua Gudang</option>'; // Kosongkan dulu
+        filterGudang.innerHTML = '<option value="">Semua Gudang</option>';
         const defaultGudang = ['Gudang 1', 'Gudang 2', 'Gudang 3'];
         const gudangs = gudangList && gudangList.length ? gudangList : defaultGudang;
         gudangs.forEach(function(gudang) {
@@ -557,12 +643,11 @@
       }).getGudangList();
     }
 
-
     function loadGudangByProduk(kodeBarang) {
         google.script.run
             .withSuccessHandler(function(gudangList) {
                 const gudangSelect = document.getElementById('gudang');
-                gudangSelect.innerHTML = '<option value="">Pilih Gudang</option>'; // Kosongkan pilihan
+                gudangSelect.innerHTML = '<option value="">Pilih Gudang</option>';
                 if (gudangList && gudangList.length > 0) {
                     gudangList.forEach(function(gudang) {
                         const option = document.createElement('option');
@@ -577,45 +662,41 @@
             .getGudangByProduk(kodeBarang);
     }
 
-
-    // GANTI fungsi getProdukInfo yang lama dengan yang ini
-function getProdukInfo() {
-  const kodeBarang = document.getElementById('kodeBarang').value.trim();
-  if (!kodeBarang) {
-    return Swal.fire('Input Kosong', 'Masukkan kode barang terlebih dahulu', 'warning');
-  }
-
-  const btnCek = document.querySelector('button[onclick="getProdukInfo()"]');
-  const originalText = btnCek.innerHTML;
-  btnCek.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Memeriksa data...';
-  btnCek.disabled = true;
-
-  google.script.run
-    .withSuccessHandler(function(produk) {
-      if (!produk) {
-        Swal.fire('Tidak Ditemukan', 'Kode barang tidak ditemukan di database.', 'error');
-        document.getElementById('produkInfo').style.display = 'none';
-      } else {
-        document.getElementById('namaBarang').value = produk.nama || '-';
-        document.getElementById('jenisBarang').value = produk.jenis || '-';
-        document.getElementById('satuan').value = produk.satuan || '-';
-        document.getElementById('stokSaatIni').value = produk.stok !== undefined ? produk.stok : '0';
-        document.getElementById('produkInfo').style.display = 'flex';
-        cekStok();
-        loadGudangByProduk(kodeBarang);
+    function getProdukInfo() {
+      const kodeBarang = document.getElementById('kodeBarang').value.trim();
+      if (!kodeBarang) {
+        return Swal.fire('Input Kosong', 'Masukkan kode barang terlebih dahulu', 'warning');
       }
-      // Kembalikan tombol ke kondisi semula setelah proses sukses
-      btnCek.innerHTML = originalText;
-      btnCek.disabled = false;
-    })
-    .withFailureHandler(function(err) {
-      Swal.fire('Gagal', 'Gagal memeriksa barang: ' + err.message, 'error');
-      // Kembalikan juga tombol jika proses gagal
-      btnCek.innerHTML = originalText;
-      btnCek.disabled = false;
-    })
-    .getProdukByBarcode(kodeBarang);
-}
+
+      const btnCek = document.querySelector('button[onclick="getProdukInfo()"]');
+      const originalText = btnCek.innerHTML;
+      btnCek.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Memeriksa data...';
+      btnCek.disabled = true;
+
+      google.script.run
+        .withSuccessHandler(function(produk) {
+          if (!produk) {
+            Swal.fire('Tidak Ditemukan', 'Kode barang tidak ditemukan di database.', 'error');
+            document.getElementById('produkInfo').style.display = 'none';
+          } else {
+            document.getElementById('namaBarang').value = produk.nama || '-';
+            document.getElementById('jenisBarang').value = produk.jenis || '-';
+            document.getElementById('satuan').value = produk.satuan || '-';
+            document.getElementById('stokSaatIni').value = produk.stok !== undefined ? produk.stok : '0';
+            document.getElementById('produkInfo').style.display = 'flex';
+            cekStok();
+            loadGudangByProduk(kodeBarang);
+          }
+          btnCek.innerHTML = originalText;
+          btnCek.disabled = false;
+        })
+        .withFailureHandler(function(err) {
+          Swal.fire('Gagal', 'Gagal memeriksa barang: ' + err.message, 'error');
+          btnCek.innerHTML = originalText;
+          btnCek.disabled = false;
+        })
+        .getProdukByBarcode(kodeBarang);
+    }
 
     function cekStok() {
       const jumlahKeluar = parseInt(document.getElementById('jumlah').value, 10);
@@ -638,10 +719,7 @@ function getProdukInfo() {
       }
     }
 
-
-// GANTI fungsi resetForm yang lama dengan yang ini
     function resetForm() {
-      // Mengosongkan field input
       document.getElementById('kodeBarang').value = '';
       document.getElementById('jumlah').value = '';
       document.getElementById('penanggungJawab').value = '';
@@ -650,58 +728,23 @@ function getProdukInfo() {
       document.getElementById('produkInfo').style.display = 'none';
       document.getElementById('stokWarning').style.display = 'none';
       
-      // Mengembalikan tombol ke mode "Simpan"
       const btnSimpan = document.getElementById('btnSimpan');
       btnSimpan.innerHTML = '<i class="material-icons">save</i> Simpan';
       btnSimpan.onclick = simpanBarangKeluar;
       btnSimpan.disabled = false;
       btnSimpan.classList.replace('btn-warning', 'btn-danger');
 
-      // Mengembalikan tombol ke mode "Reset"
       const btnReset = document.getElementById('btnReset');
       btnReset.innerHTML = '<i class="material-icons">refresh</i> Reset';
       btnReset.onclick = resetForm;
       
-      // Mengosongkan variabel baris yang diedit
       barisDiedit = null;
     }
 
-    function setupBarcodeScanner() {
-      const barcodeInput = document.getElementById('barcodeInput');
-      if (!barcodeInput) return;
-
-      barcodeInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        const kodeBarangInput = document.getElementById('kodeBarang');
-        kodeBarangInput.value = "Membaca barcode...";
-        kodeBarangInput.disabled = true;
-        
-        Quagga.decodeSingle({
-          decoder: { readers: ['ean_reader', 'code_128_reader', 'upc_reader'] },
-          locate: true, 
-          src: URL.createObjectURL(file)
-        }, function(result) {
-          kodeBarangInput.disabled = false;
-          if (result?.codeResult) {
-            kodeBarangInput.value = result.codeResult.code;
-            getProdukInfo(); // Langsung panggil info
-          } else {
-            kodeBarangInput.value = "";
-            Swal.fire("Gagal", "Barcode tidak terdeteksi. Pastikan gambar jelas.", "error");
-          }
-          barcodeInput.value = '';
-        });
-      });
-    }
-
     function editBarangKeluar(rowIndex) {
-      // Ambil data dari baris tabel yang diklik
       const baris = document.querySelector(`button[onclick="editBarangKeluar(${rowIndex})"]`).closest('tr');
       const sel = baris.getElementsByTagName('td');
 
-      // Isi form dengan data yang ada
       const tanggalDariTabel = sel[0].textContent;
       document.getElementById('tglKeluar').value = tanggalDariTabel.split('/').reverse().join('-');
       document.getElementById('kodeBarang').value = sel[1].textContent;
@@ -709,28 +752,20 @@ function getProdukInfo() {
       document.getElementById('penanggungJawab').value = sel[6].textContent;
       document.getElementById('jumlah').value = sel[7].textContent;
       
-      // Simpan ID baris yang sedang diedit
       barisDiedit = rowIndex;
-      
-      // Panggil info produk untuk melengkapi data stok dll.
       getProdukInfo();
-      
-      // Gulir ke form
       document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
 
-      // Ubah tombol "Simpan" menjadi "Update"
       const btnSimpan = document.getElementById('btnSimpan');
       btnSimpan.innerHTML = '<i class="material-icons">save</i> Update';
-      btnSimpan.onclick = prosesUpdateBarangKeluar; // Ganti fungsi onclick
+      btnSimpan.onclick = prosesUpdateBarangKeluar;
       btnSimpan.classList.replace('btn-danger', 'btn-warning');
 
-      // Ubah tombol "Reset" menjadi "Batal"
       const btnReset = document.getElementById('btnReset');
       btnReset.innerHTML = '<i class="material-icons">cancel</i> Batal';
       btnReset.onclick = resetForm;
     }
 
-    // TAMBAHKAN fungsi baru ini
     function prosesUpdateBarangKeluar() {
       if (!barisDiedit) return;
 
@@ -747,7 +782,7 @@ function getProdukInfo() {
       
       const btnUpdate = document.getElementById('btnSimpan');
       const originalUpdateText = btnUpdate.innerHTML;
-      btnUpdate.innerHTML = '<i class="material-icons spin">autorenew</i> Memperbarui data...';
+      btnUpdate.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Memperbarui data...';
       btnUpdate.disabled = true;
 
       google.script.run
@@ -763,8 +798,6 @@ function getProdukInfo() {
         })
         .updateBarangKeluar(barisDiedit, newData);
     }
-
-
   </script>
 </body>
 </html>
